@@ -8,10 +8,12 @@ export class DeviceDetector {
   }
 
   isMobile() {
-    return this.touchSupport && (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(this.userAgent) ||
-      this.screenWidth < 768
-    );
+    // More accurate mobile detection - exclude desktop browsers with touch
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(this.userAgent);
+    const isSmallScreen = this.screenWidth < 768;
+    const isNotDesktopBrowser = !/Mac|Win|Linux/i.test(navigator.platform) || isMobileUA;
+    
+    return this.touchSupport && (isMobileUA || (isSmallScreen && isNotDesktopBrowser));
   }
 
   isTablet() {

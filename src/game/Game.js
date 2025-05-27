@@ -150,8 +150,8 @@ export class Game {
     this.bullets = [];
     this.particles.clear();
     
-    // Create asteroids for current level
-    const asteroidCount = Math.min(4 + this.level, 12);
+    // Create asteroids for current level - more reasonable progression
+    const asteroidCount = Math.min(2 + Math.floor(this.level / 2), 8);
     
     for (let i = 0; i < asteroidCount; i++) {
       this.createRandomAsteroid();

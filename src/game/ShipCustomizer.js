@@ -109,6 +109,28 @@ export class ShipCustomizer {
     
     this.currentStyle = 'classic';
     this.unlockedStyles = new Set(['classic']);
+    
+    // Customization settings (available for all ships)
+    this.customization = {
+      color: {
+        primary: '#00ffff',
+        secondary: '#ffffff',
+        trail: '#00ffff'
+      },
+      stats: {
+        speed: 1.0,        // 0.8 - 1.2
+        agility: 1.0,      // 0.8 - 1.2  
+        fireRate: 1.0,     // 0.8 - 1.2
+        shield: 1.0        // 0.8 - 1.2
+      },
+      trail: {
+        enabled: true,
+        length: 1.0,       // 0.5 - 2.0
+        intensity: 1.0,    // 0.5 - 1.5
+        particles: true
+      }
+    };
+    
     this.loadProgress();
   }
   
@@ -224,10 +246,82 @@ export class ShipCustomizer {
     ctx.restore();
   }
   
+  // Customization methods
+  setCustomColor(colorType, color) {
+    if (this.customization.color.hasOwnProperty(colorType)) {
+      this.customization.color[colorType] = color;
+      this.saveProgress();
+      return true;
+    }
+    return false;
+  }
+  
+  setCustomStat(statType, value) {
+    if (this.customization.stats.hasOwnProperty(statType)) {
+      // Clamp values between 0.8 and 1.2
+      this.customization.stats[statType] = Math.max(0.8, Math.min(1.2, value));
+      this.saveProgress();
+      return true;
+    }
+    return false;
+  }
+  
+  setTrailSetting(settingType, value) {
+    if (this.customization.trail.hasOwnProperty(settingType)) {
+      if (settingType === 'enabled' || settingType === 'particles') {
+        this.customization.trail[settingType] = Boolean(value);
+      } else {
+        // Clamp numeric values
+        const limits = { length: [0.5, 2.0], intensity: [0.5, 1.5] };
+        const [min, max] = limits[settingType] || [0.5, 2.0];
+        this.customization.trail[settingType] = Math.max(min, Math.min(max, value));
+      }
+      this.saveProgress();
+      return true;
+    }
+    return false;
+  }
+  
+  getCustomizedShipData() {
+    const baseStyle = this.getCurrentStyle();
+    return {
+      ...baseStyle,
+      color: this.customization.color.primary,
+      glowColor: this.customization.color.secondary,
+      trailColor: this.customization.color.trail,
+      stats: { ...this.customization.stats },
+      trail: { ...this.customization.trail }
+    };
+  }
+  
+  resetCustomization() {
+    this.customization = {
+      color: {
+        primary: '#00ffff',
+        secondary: '#ffffff', 
+        trail: '#00ffff'
+      },
+      stats: {
+        speed: 1.0,
+        agility: 1.0,
+        fireRate: 1.0,
+        shield: 1.0
+      },
+      trail: {
+        enabled: true,
+        length: 1.0,
+        intensity: 1.0,
+        particles: true
+      }
+    };
+    this.saveProgress();
+  }
+
   saveProgress() {
     const data = {
       currentStyle: this.currentStyle,
-      unlockedStyles: Array.from(this.unlockedStyles)
+      unlockedStyles: Array.from(this.unlockedStyles),
+      customization: this.customization
     };
     
     localStorage.setItem('asteroidsX_shipCustomization', JSON.stringify(data));
@@ -240,6 +334,15 @@ export class ShipCustomizer {
         const data = JSON.parse(saved);
         this.currentStyle = data.currentStyle || 'classic';
         this.unlockedStyles = new Set(data.unlockedStyles || ['classic']);
+        
+        // Load customization data with fallbacks
+        if (data.customization) {
+          this.customization = {
+            color: { ...this.customization.color, ...data.customization.color },
+            stats: { ...this.customization.stats, ...data.customization.stats },
+            trail: { ...this.customization.trail, ...data.customization.trail }
+          };
+        }
       }
     } catch (error) {
       console.warn('Failed to load ship customization data:', error);

@@ -179,11 +179,6 @@ class AsteroidsX {
       this.toggleFullscreen();
     });
 
-    document.getElementById('debug-unlock')?.addEventListener('click', () => {
-      this.unlockAllShips();
-      this.addTestStats();
-    });
-
     // Pause menu
     document.getElementById('resume-game')?.addEventListener('click', () => {
       this.game?.resume();
@@ -212,6 +207,65 @@ class AsteroidsX {
     // Ship customization screen
     document.getElementById('back-from-customization')?.addEventListener('click', () => {
       this.showScreen('main-menu');
+    });
+
+    document.getElementById('reset-customization')?.addEventListener('click', () => {
+      if (confirm('Reset all customizations to defaults? This cannot be undone.')) {
+        this.game?.shipCustomizer?.resetCustomization();
+        this.populateShipCustomization(); // Refresh the customization display
+      }
+    });
+
+    // Color customization
+    ['primary-color', 'secondary-color', 'trail-color'].forEach(id => {
+      document.getElementById(id)?.addEventListener('change', (e) => {
+        const colorType = id.replace('-color', '');
+        this.game?.shipCustomizer?.setCustomColor(colorType, e.target.value);
+      });
+    });
+
+    // Stat customization
+    ['speed-stat', 'agility-stat', 'fireRate-stat', 'shield-stat'].forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('input', (e) => {
+          const statType = id.replace('-stat', '');
+          const value = parseFloat(e.target.value);
+          this.game?.shipCustomizer?.setCustomStat(statType, value);
+          
+          // Update display value
+          const valueDisplay = e.target.nextElementSibling;
+          if (valueDisplay) {
+            valueDisplay.textContent = `${Math.round(value * 100)}%`;
+          }
+        });
+      }
+    });
+
+    // Trail customization
+    document.getElementById('trail-enabled')?.addEventListener('change', (e) => {
+      this.game?.shipCustomizer?.setTrailSetting('enabled', e.target.checked);
+    });
+
+    document.getElementById('trail-particles')?.addEventListener('change', (e) => {
+      this.game?.shipCustomizer?.setTrailSetting('particles', e.target.checked);
+    });
+
+    ['trail-length', 'trail-intensity'].forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+        input.addEventListener('input', (e) => {
+          const settingType = id.replace('trail-', '');
+          const value = parseFloat(e.target.value);
+          this.game?.shipCustomizer?.setTrailSetting(settingType, value);
+          
+          // Update display value
+          const valueDisplay = e.target.nextElementSibling;
+          if (valueDisplay) {
+            valueDisplay.textContent = `${Math.round(value * 100)}%`;
+          }
+        });
+      }
     });
 
     // Options screen
@@ -384,6 +438,7 @@ class AsteroidsX {
   showCustomization() {
     console.log('🎨 Opening ship customization...');
     this.populateShipGallery();
+    this.populateShipCustomization();
     this.showScreen('ship-customization');
   }
 
@@ -447,6 +502,55 @@ class AsteroidsX {
           tempCustomizer.renderCustomizationPreview(ctx, 60, 60, 2);
         } catch (error) {
           console.error('Error rendering ship preview:', error);
+        }
+      }
+    });
+  }
+
+  populateShipCustomization() {
+    if (!this.game?.shipCustomizer) return;
+    
+    const customization = this.game.shipCustomizer.customization;
+    
+    // Populate color controls
+    const primaryColor = document.getElementById('primary-color');
+    const secondaryColor = document.getElementById('secondary-color');
+    const trailColor = document.getElementById('trail-color');
+    
+    if (primaryColor) primaryColor.value = customization.color.primary;
+    if (secondaryColor) secondaryColor.value = customization.color.secondary;
+    if (trailColor) trailColor.value = customization.color.trail;
+    
+    // Populate stat controls
+    Object.entries(customization.stats).forEach(([statType, value]) => {
+      const input = document.getElementById(`${statType}-stat`);
+      const display = input?.nextElementSibling;
+      
+      if (input) {
+        input.value = value;
+        if (display) {
+          display.textContent = `${Math.round(value * 100)}%`;
+        }
+      }
+    });
+    
+    // Populate trail controls
+    const trailEnabled = document.getElementById('trail-enabled');
+    const trailParticles = document.getElementById('trail-particles');
+    
+    if (trailEnabled) trailEnabled.checked = customization.trail.enabled;
+    if (trailParticles) trailParticles.checked = customization.trail.particles;
+    
+    // Populate trail sliders
+    ['length', 'intensity'].forEach(settingType => {
+      const input = document.getElementById(`trail-${settingType}`);
+      const display = input?.nextElementSibling;
+      const value = customization.trail[settingType];
+      
+      if (input) {
+        input.value = value;
+        if (display) {
+          display.textContent = `${Math.round(value * 100)}%`;
         }
       }
     });

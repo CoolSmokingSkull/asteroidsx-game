@@ -36,7 +36,6 @@
             <button id="customize-ship" class="neon-button">CUSTOMIZE SHIP</button>
             <button id="options" class="neon-button">OPTIONS</button>
             <button id="fullscreen" class="neon-button">FULLSCREEN</button>
-            <button id="debug-unlock" class="neon-button secondary" style="font-size: 0.8rem;">🔓 UNLOCK ALL (DEBUG)</button>
           </div>
         </div>
         
@@ -105,10 +104,96 @@
         
         <div id="ship-customization" class="screen">
           <div class="customization-title">SHIP CUSTOMIZATION</div>
-          <div class="ship-gallery" id="ship-gallery">
-            <!-- Ship options will be populated by JavaScript -->
+          
+          <div class="customization-container">
+            <!-- Ship Selection -->
+            <div class="customization-section">
+              <h3>Ship Design</h3>
+              <div class="ship-gallery" id="ship-gallery">
+                <!-- Ship options will be populated by JavaScript -->
+              </div>
+            </div>
+            
+            <!-- Color Customization -->
+            <div class="customization-section">
+              <h3>Color Scheme</h3>
+              <div class="color-controls">
+                <div class="color-control">
+                  <label for="primary-color">Primary Color:</label>
+                  <input type="color" id="primary-color" value="#00ffff">
+                </div>
+                <div class="color-control">
+                  <label for="secondary-color">Glow Color:</label>
+                  <input type="color" id="secondary-color" value="#ffffff">
+                </div>
+                <div class="color-control">
+                  <label for="trail-color">Trail Color:</label>
+                  <input type="color" id="trail-color" value="#00ffff">
+                </div>
+              </div>
+            </div>
+            
+            <!-- Stat Adjustments -->
+            <div class="customization-section">
+              <h3>Performance Tuning</h3>
+              <div class="stat-controls">
+                <div class="stat-control">
+                  <label for="speed-stat">Speed:</label>
+                  <input type="range" id="speed-stat" min="0.8" max="1.2" step="0.1" value="1.0">
+                  <span class="stat-value">100%</span>
+                </div>
+                <div class="stat-control">
+                  <label for="agility-stat">Agility:</label>
+                  <input type="range" id="agility-stat" min="0.8" max="1.2" step="0.1" value="1.0">
+                  <span class="stat-value">100%</span>
+                </div>
+                <div class="stat-control">
+                  <label for="fireRate-stat">Fire Rate:</label>
+                  <input type="range" id="fireRate-stat" min="0.8" max="1.2" step="0.1" value="1.0">
+                  <span class="stat-value">100%</span>
+                </div>
+                <div class="stat-control">
+                  <label for="shield-stat">Shield:</label>
+                  <input type="range" id="shield-stat" min="0.8" max="1.2" step="0.1" value="1.0">
+                  <span class="stat-value">100%</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Trail Effects -->
+            <div class="customization-section">
+              <h3>Trail Effects</h3>
+              <div class="trail-controls">
+                <div class="trail-control">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="trail-enabled" checked>
+                    <span class="checkmark"></span>
+                    Enable Trail
+                  </label>
+                </div>
+                <div class="trail-control">
+                  <label for="trail-length">Length:</label>
+                  <input type="range" id="trail-length" min="0.5" max="2.0" step="0.1" value="1.0">
+                  <span class="trail-value">100%</span>
+                </div>
+                <div class="trail-control">
+                  <label for="trail-intensity">Intensity:</label>
+                  <input type="range" id="trail-intensity" min="0.5" max="1.5" step="0.1" value="1.0">
+                  <span class="trail-value">100%</span>
+                </div>
+                <div class="trail-control">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="trail-particles" checked>
+                    <span class="checkmark"></span>
+                    Particle Effects
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
+          
           <div class="menu-buttons">
+            <button id="reset-customization" class="neon-button secondary">RESET TO DEFAULTS</button>
             <button id="back-from-customization" class="neon-button">BACK</button>
           </div>
         </div>

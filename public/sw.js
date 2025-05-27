@@ -1,5 +1,5 @@
 // Service Worker for AsteroidsX PWA
-const CACHE_NAME = 'asteroidsx-v1.1.1'; // Increment this for updates
+const CACHE_NAME = 'asteroidsx-v1.2.0'; // Increment this for updates
 const urlsToCache = [
   '/',
   '/index.html',
