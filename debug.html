@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: monospace;
+            margin: 20px;
+        }
+        .test-element {
+            background: #ff00ff;
+            color: white;
+            padding: 20px;
+            border: 2px solid #00ffff;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Test Page</h1>
+    <div class="test-element">If you can see this, basic HTML/CSS is working</div>
+    
+    <div id="main-menu-test" class="test-element">
+        <h2>ASTEROIDS<span style="color: #ffff00;">X</span></h2>
+        <button style="background: transparent; border: 2px solid #00ffff; color: #00ffff; padding: 10px 20px; margin: 5px;">START GAME</button>
+        <button style="background: transparent; border: 2px solid #00ffff; color: #00ffff; padding: 10px 20px; margin: 5px;">OPTIONS</button>
+    </div>
+    
+    <script>
+        console.log('🔍 Debug script running...');
+        
+        // Test if main page elements exist
+        const originalMainMenu = document.getElementById('main-menu');
+        console.log('Original main menu element:', originalMainMenu);
+        
+        // Test CSS import
+        const linkElement = document.createElement('link');
+        linkElement.rel = 'stylesheet';
+        linkElement.href = '/src/style.css';
+        linkElement.onload = () => console.log('✅ CSS loaded successfully');
+        linkElement.onerror = () => console.error('❌ CSS failed to load');
+        document.head.appendChild(linkElement);
+        
+        // Test module import
+        import('/src/main.js')
+            .then(module => {
+                console.log('✅ Main module loaded:', module);
+            })
+            .catch(error => {
+                console.error('❌ Module failed to load:', error);
+            });
+    </script>
+</body>
+</html>

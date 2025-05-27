@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/asteroid.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="AsteroidsX - The ultimate psychedelic space shooter experience" />
+    
+    <!-- Enhanced mobile support -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AsteroidsX" />
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AsteroidsX" />
+    
+    <!-- Load CSS directly -->
+    <link rel="stylesheet" href="/src/style.css" />
+    
+    <title>AsteroidsX - Psychedelic Space Shooter</title>
+  </head>
+  <body>
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+      <div id="ui-overlay">
+        <div id="main-menu" class="screen active">
+          <div class="neon-title">ASTEROIDS<span class="accent">X</span></div>
+          <div class="menu-buttons">
+            <button id="start-game" class="neon-button">START GAME</button>
+            <button id="customize-ship" class="neon-button">CUSTOMIZE SHIP</button>
+            <button id="options" class="neon-button">OPTIONS</button>
+            <button id="fullscreen" class="neon-button">FULLSCREEN</button>
+            <button id="debug-unlock" class="neon-button secondary" style="font-size: 0.8rem;">🔓 UNLOCK ALL (DEBUG)</button>
+          </div>
+        </div>
+        
+        <div id="game-ui" class="screen">
+          <div class="hud">
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="lives">Lives: <span id="lives">3</span></div>
+            <div class="level">Level: <span id="level">1</span></div>
+          </div>
+          <div class="mobile-controls" id="mobile-controls">
+            <div class="control-pad">
+              <button class="control-btn" id="thrust-btn">↑</button>
+              <button class="control-btn" id="left-btn">←</button>
+              <button class="control-btn" id="right-btn">→</button>
+              <button class="control-btn fire-btn" id="fire-btn">FIRE</button>
+            </div>
+          </div>
+        </div>
+        
+        <div id="pause-menu" class="screen">
+          <div class="pause-title">PAUSED</div>
+          <div class="menu-buttons">
+            <button id="resume-game" class="neon-button">RESUME</button>
+            <button id="restart-game" class="neon-button">RESTART</button>
+            <button id="main-menu-btn" class="neon-button">MAIN MENU</button>
+          </div>
+        </div>
+        
+        <div id="game-over" class="screen">
+          <div class="game-over-title">GAME OVER</div>
+          <div class="game-stats">
+            <div class="stat-row">
+              <span class="stat-label">Final Score:</span>
+              <span class="stat-value" id="final-score">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Level Reached:</span>
+              <span class="stat-value" id="final-level">1</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Asteroids Destroyed:</span>
+              <span class="stat-value" id="final-asteroids">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Accuracy:</span>
+              <span class="stat-value" id="final-accuracy">0%</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Time Survived:</span>
+              <span class="stat-value" id="final-time">0:00</span>
+            </div>
+            <div class="achievements">
+              <div id="new-high-score" class="achievement" style="display: none;">
+                🏆 NEW HIGH SCORE!
+              </div>
+              <div id="new-max-level" class="achievement" style="display: none;">
+                🚀 NEW LEVEL RECORD!
+              </div>
+            </div>
+          </div>
+          <div class="menu-buttons">
+            <button id="play-again" class="neon-button">PLAY AGAIN</button>
+            <button id="back-to-menu" class="neon-button">MAIN MENU</button>
+          </div>
+        </div>
+        
+        <div id="ship-customization" class="screen">
+          <div class="customization-title">SHIP CUSTOMIZATION</div>
+          <div class="ship-gallery" id="ship-gallery">
+            <!-- Ship options will be populated by JavaScript -->
+          </div>
+          <div class="menu-buttons">
+            <button id="back-from-customization" class="neon-button">BACK</button>
+          </div>
+        </div>
+        
+        <div id="options-menu" class="screen">
+          <div class="options-title">OPTIONS</div>
+          <div class="options-content" id="options-content">
+            <!-- Options will be populated by JavaScript -->
+          </div>
+          <div class="menu-buttons">
+            <button id="reset-settings" class="neon-button secondary">RESET DEFAULTS</button>
+            <button id="back-from-options" class="neon-button">BACK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
